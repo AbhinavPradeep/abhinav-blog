@@ -89,3 +89,27 @@ params:
 module:
   imports:
     - path: github.com/adityatelange/hugo-PaperMod
+
+params:
+    profileMode:
+        enabled: true
+        imageUrl: "Abhinav-Pradeep.png"
+        imageWidth: 380
+        imageHeight: 323
+        subtitle: "Notes from my journey designing and building software systems"
+    
+    socialIcons:
+        - name: "LinkedIn"
+          url: "https://www.linkedin.com/in/abhinav-pradeep/"
+        - name: "Twitter"
+          url: "https://twitter.com/abhinavpradeeps"
+menu:
+  main:
+    - identifier: about
+      name: About
+      url: https://www.linkedin.com/in/pradeeploganathan/
+      weight: 30
+    - identifier: blog
+      name: Blog
+      url: /blog/
+      weight: 20
