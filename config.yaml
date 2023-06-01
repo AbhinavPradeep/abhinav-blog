@@ -1,6 +1,90 @@
 baseURL: "/"
 languageCode: "en-us"
 title: "Abhinav Pradeep's Blog"
+paginate: 5
+copyright: "&copy; 2023 Abhinav Pradeep.<br> This work is licensed under <br> a Creative Commons Attribution-ShareAlike 4.0 <br> International License."
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+enableGitInfo: true
+
+googleAnalytics: 
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    anchorLineNos: true
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    noClasses: false
+    style: monokai
+
+minify:
+  minifyOutput: true
+  minifyCSS: true
+  minifyJS: true
+  minifyHTML: true
+  minifyURLs: true
+  disableXML: true
+
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON # is necessary
+
+menu:
+  main:
+    - identifier: categories
+      name: Categories
+      url: /categories/
+      weight: 50
+    - identifier: about
+      name: About
+      url: https://www.linkedin.com/in/abhinavpradeep/
+      weight: 30
+    - identifier: blog
+      name: Blog
+      url: /blog/
+      weight: 20
+    - identifier: Search
+      name: Search
+      url: /search/
+      weight: 10
+
+params:
+  env: production
+  title: "Abhinav Pradeep"
+  description: 'My technical notes and thoughts on software engineering, programming, and life.'
+  keywords: [Abhinav Pradeep, kubernetes, Devops, GitOps, ArgoCD, FluxCD]
+  author: "Abhinav Pradeep"
+  email: "Abhinav.pradeep@sefd.com"
+  comments: true
+  images:
+    - Pradeep-Loganathan.jpeg
+  DateFormat: 'January 2, 2006'
+  timeFormat: 'h:mm a'
+  dateTimeFormat: 'MMMM Do, YYYY h:mm a'
+  language: en-us
+  languageCode: en-us
+
+  mainSections: ['posts']
+
+  editPost:
+    URL: "https://github.com/AbhinavPradeep/abhinav-blog/tree/master/content"
+    Text: "Edit this post on github" # edit text
+    appendFilePath: true # to append file path to Edit link
+
+  social:
+    twitter: abhinavpradeep    
+
 
 module:
   imports:

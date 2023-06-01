@@ -23,11 +23,11 @@ We will now create a simple console application. It has an 'Account' class with 
 
 Note - The 'Thread.Sleep(10000)' is nothing but a kind of buffer to simulate the execution of a large chunk of code or latency in connection to a database. It might as well be a large loop. An alternative for this could be -
 
-```
+```csharp
 for (int i = 0; i < 100000000; i++)
- {
+{
     //Simulating large chunk of code
- }
+}
 ```
 
 It would not make any difference. However, the number of zeros need to be matched in order to gain similar results as 'Thread.Sleep(10000)
