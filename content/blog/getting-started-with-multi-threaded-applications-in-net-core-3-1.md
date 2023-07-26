@@ -19,15 +19,51 @@ WARNING - naive implementation for demonstration purposes.
 
 We will now create a simple console application. It has an 'Account' class with two simple and seemingly infallible 'Deposit' and 'Withdraw' methods. Given below is the code for this class.
 
-<a href="https://gist.github.com/AbhinavPradeep/5ae445fc16a41aaf45156461afe02ba9">View this gist on GitHub</a>
+```
+using System;
+using System.Threading;
+
+namespace MultiThreadedProgramming
+{
+    class Account
+    {
+        public Account()
+        {
+            Balance = 0.00;
+        }
+        public Double Balance{get; private set;}
+
+        public void Withdraw(double Amount)
+        {
+            System.Console.WriteLine($"Trying to withdraw ${Amount}");
+            if (Balance >= Amount)
+            {
+                Thread.Sleep(10000);
+                Balance -= Amount;
+                System.Console.WriteLine($"Balance left after withdrawl = ${Balance}");
+            }
+            else
+            {
+                System.Console.WriteLine($"Sorry you only have ${Balance} left");
+            }
+        }
+
+        public void Deposit(double Amount)
+        {
+            Balance+= Amount;
+            System.Console.WriteLine($"Balance = ${Balance}");
+        }
+    }
+}
+```
 
 Note - The 'Thread.Sleep(10000)' is nothing but a kind of buffer to simulate the execution of a large chunk of code or latency in connection to a database. It might as well be a large loop. An alternative for this could be -
 
-```csharp
+```
 for (int i = 0; i < 100000000; i++)
-{
+ {
     //Simulating large chunk of code
-}
+ }
 ```
 
 It would not make any difference. However, the number of zeros need to be matched in order to gain similar results as 'Thread.Sleep(10000)
@@ -38,7 +74,36 @@ In order to test this, we would call the method from the main method, debug thro
 
 In order to demonstrate the pitfalls of this program in a multi-threaded environment , we can execute the following code in our main method. This code creates an array of threads and then the threads execute parallelly to withdraw from the account.
 
-<a href="https://gist.github.com/AbhinavPradeep/6bd2508e461946b0fedf7f493240a914">View this gist on GitHub</a>
+```
+using System;
+using System.Threading;
+
+namespace MultiThreadedProgramming
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Account Savings = new Account();
+            Savings.Deposit(100.00);
+
+            Thread[] ArrayOfThreads = new Thread[15];
+            for (int i = 0; i < 15; i++)
+            {
+                Thread thread = new Thread(() =>
+                {
+                    Savings.Withdraw(90.00);
+                });
+                ArrayOfThreads[i] = thread;
+            }
+            for (int i = 0; i < 15; i++)
+            {
+                ArrayOfThreads[i].Start();
+            }
+        }
+    }
+}
+```
 
 The code above creates an Account object. It then deposits $100. Then, an array of threads are created. As stated before, threads can run parallel to each other. They hence provide an easy way to stress test our code. After this, we program each thread to withdraw $90. Then, through a 'for' loop, all the threads in the array are executed. The result is as follows.
 
@@ -54,7 +119,50 @@ As stated before, threads run parallel to each other. Hence, all the threads hit
 
 To fix this issue a small modification needs to be made to the account class. We need to implement a lock around the code within the 'Withdraw' method. The lock method ensures that one thread does not enter a critical section of code while another thread is in that critical section. This forces the threads to execute one after another (i.e. the thread is forced to execute the entire block of locked code, preventing another thread from hitting the 'Withdraw' method when the current thread is waiting at the Thread.Sleep(10000)). Given below is the code to implement the lock() -
 
-<a href="https://gist.github.com/AbhinavPradeep/69c5cadc0db98135da061dd70fd725cc">View this gist on GitHub</a>
+```
+using System;
+using System.Threading;
+
+namespace MultiThreadedProgramming
+{
+    class Account
+    {
+        public Account()
+        {
+            Balance = 0.00;
+            Padlock = new Object();
+        }
+        public Double Balance{get; private set;}
+
+        public Object Padlock;
+            
+        public void Withdraw(double Amount)
+        {
+            lock (Padlock)
+            {
+                System.Console.WriteLine($"Trying to withdraw ${Amount}");
+                if (Balance >= Amount)
+                {
+                    Thread.Sleep(10000);
+                    Balance -= Amount;
+                    System.Console.WriteLine($"Balance left after withdrawl = ${Balance}");
+                }
+            
+                else
+                {
+                    System.Console.WriteLine($"Sorry you only have ${Balance} left");
+                }
+            }
+        }
+
+        public void Deposit(double Amount)
+        {
+            Balance+= Amount;
+            System.Console.WriteLine($"Balance = ${Balance}");
+        }
+    }
+}
+```
 
 When we execute the code this time, we get the following output -
 
