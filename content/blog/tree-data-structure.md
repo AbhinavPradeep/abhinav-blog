@@ -1,18 +1,16 @@
 ---
 title: 'Tree data structure'
-date: Sun, 18 Jum 2023 12:14:07 +0000
-
+date: Sun, 18 Jun 2023 12:14:07 +0000
 draft: false
 comments: true
 toc: true
 showToc: true
 TocOpen: false
-
 math: true
 ---
 
 ## What are trees?
-Trees are a type of non-linear data structure. This means that elemets are not stored sequentially. When compared against linear data strucutres such as linked lists or arrays, this property implies that all elements cannot be traversed in a 'single run' - linked lists allow all elements to be reached by just calling each node's child, where trees do not. However, this non-linear stucture does provide several advantages that will be discussed. General structure and terminology related to trees is covered by the below diagram:
+Trees are a type of non-linear data structure. This means that elements are not stored sequentially. When compared against linear data structures such as linked lists or arrays, this property implies that all elements cannot be traversed in a 'single run' - linked lists allow all elements to be reached by just calling each node's child, where trees do not. However, this non-linear structure does provide several advantages that will be discussed. General structure and terminology related to trees is covered by the below diagram:
 
 ![targets](/STRUT.png)
 
@@ -21,18 +19,18 @@ Trees are a type of non-linear data structure. This means that elemets are not s
 A tree containing nodes with a maximum of n children can be called an n-ary tree. This article covers the case where n = 2: the binary tree. In particular a special type of binary tree, called the binary search tree, which enforces a specific ordering on its nodes will be investigated.
 
 ## What are binary search trees?
-Binary search trees enforce the 'binary search invariant': given a key and a comparator function, every node in the left sub-tree of its parent node has a key that is $\le$ to the parent node's key, and conversely every key in the right sub-tree is $>$ than the parent's key. The below diagram provides visual intuiton of this concept:
+Binary search trees enforce the 'binary search invariant': given a key and a comparator function, every node in the left sub-tree of its parent node has a key that is $\le$ to the parent node's key, and conversely every key in the right sub-tree is $>$ than the parent's key. The below diagram provides visual intuition of this concept:
 
 ![targets](/BSTINV.png)
 
-## Implimentations of binary search trees
-The most common implimentation of binary search trees is the linked list implimentation. However, as an exercise in understanding the concept space efficiency, the array implimentation is also considered. Code will be written in Python. All code is also available [on my github](https://github.com/AbhinavPradeep).
-### Array implimentation:
-This implimentation stores the binary search tree as an array of nodes where indices delineate the relationship between the nodes. Specifically for a node at index $i$, its left child is at index $2i+1$ and its right child is at index $2i+2$. The below diagram visually describes this concept:
+## Implementations of binary search trees
+The most common implementation of binary search trees is the linked list implementation. However, as an exercise in understanding the concept space efficiency, the array implementation is also considered. Code will be written in Python. All code is also available [on my github](https://github.com/AbhinavPradeep).
+### Array implementation:
+This implementation stores the binary search tree as an array of nodes where indices delineate the relationship between the nodes. Specifically for a node at index $i$, its left child is at index $2i+1$ and its right child is at index $2i+2$. The below diagram visually describes this concept:
 
 ![targets](/INDEXING.png)
 
-Provided below is the node class used in this implimentation:
+Provided below is the node class used in this implementation:
 
 ```python
 class Node:
@@ -59,7 +57,7 @@ Rather than:
  <Node.Node object at 0x1086fcc90> <Node.Node object at 0x1087224d0>]
 ```
 
-Using this node class and above discussed indexing, the BinaryTree class can now be implimented. As python does not have the concept of a fixed size array, the [NumPy](https://numpy.org/install/) package must be imported. Provided below are the necessary imports and __init__ method of the class:
+Using this node class and above discussed indexing, the BinaryTree class can now be implemented. As python does not have the concept of a fixed size array, the [NumPy](https://numpy.org/install/) package must be imported. Provided below are the necessary imports and __init__ method of the class:
 
 ```python
 from Node import Node
@@ -77,7 +75,7 @@ Now the insert method can be defined:
 
 ```python
 def Insert(self, ValueToInsert) -> None:
-    # Handle case where tree is emptry,
+    # Handle case where tree is empty,
     # ie. there is no headnode
     if self.Tree[0] == None:
         self.Tree[0] = Node(ValueToInsert)
@@ -116,15 +114,15 @@ The method first checks if the tree is empty (ie., if the headnode is None). If 
 
 If the tree is not empty, the method begins comparing values - starting with the headnode - by entering a while loop that continues until the value has been inserted.
 
-Inside the while loop, the method first checks if a new level has to be created in the tree. This is necessary if the node is not yet inserted, and the array does not have capacity to store nodes deeper than CurrentNode. Inserted being false implies the need for indeces at $(2 \cdot \operatorname{Index})+1$ (if ValueToInsert is to be the left child of CurrentNode) or $(2 \cdot \operatorname{Index})+2$ (if ValueToInsert is to be the right child of CurrentNode). As the loop only runs when this condition is met, and $(2 \cdot \operatorname{Index})+1 < (2 \cdot \operatorname{Index})+2$, it is sufficient to check if the length of the tree array is $<(2 \cdot \operatorname{Index})+1$. In the case that this is true, a new level must be created.
+Inside the while loop, the method first checks if a new level has to be created in the tree. This is necessary if the node is not yet inserted, and the array does not have capacity to store nodes deeper than CurrentNode. Inserted being false implies the need for indices at $(2 \cdot \operatorname{Index})+1$ (if ValueToInsert is to be the left child of CurrentNode) or $(2 \cdot \operatorname{Index})+2$ (if ValueToInsert is to be the right child of CurrentNode). As the loop only runs when this condition is met, and $(2 \cdot \operatorname{Index})+1 < (2 \cdot \operatorname{Index})+2$, it is sufficient to check if the length of the tree array is $<(2 \cdot \operatorname{Index})+1$. In the case that this is true, a new level must be created.
 
 To create a new level, a NewTree array of size $2\cdot\operatorname{len(self.Tree)}+1$ must be created and all the values from the previous array must inserted into this new array. The new size is set to $2\cdot\operatorname{len(self.Tree)}+1$ due to the exponential nature of tree growth.
 
 The method then checks if it can insert the new node by checking four conditions. If ValueToInsert is greater than, or less than or equal to the value of the current node and the right or left child is None, it creates a new Node and assigns it to the right or left child. If the right or left child is not None, it updates CurrentNode and Index to point to the right or left child and continues with the next iteration of the while loop.
 
-### Pitfalls of the array implimentatoon:
+### Pitfalls of the array implementation:
 
-Now that the insert method is defined, memory efficiency problems of the array implimentation become clear. Consider the below code to create a BinaryTree object, insert values and print the resulting array:
+Now that the insert method is defined, memory efficiency problems of the array implementation become clear. Consider the below code to create a BinaryTree object, insert values and print the resulting array:
 
 ```python
 Tree = BinaryTree()
@@ -147,7 +145,7 @@ It outputs:
  None None None None None None None None None None None None]
 ```
 
-It is immideately evident from the number of 'None' values that the size of the array generated is significantly larger than the size of the input. In this case, to insert 10 values, an array of size 31 was created. However, this is not the worst case. Consider inserting values in an ascending order to the tree:
+It is immediately evident from the number of 'None' values that the size of the array generated is significantly larger than the size of the input. In this case, to insert 10 values, an array of size 31 was created. However, this is not the worst case. Consider inserting values in an ascending order to the tree:
 
 ```python
 Tree = BinaryTree()
@@ -168,12 +166,12 @@ To insert 6 values, an array of size 63 was created. More generally, for a tree 
 
 $$S_a \le 2^{n}-1$$
 
-Hence, in the worst case, space exponential in the number of nodes inserted is necessary. This is clearly inneficcient. In terms of big-O notation, it can be said that the array impliemntation has a space complexity of $O(2^{n})$. The linked list implimentation addresses this issue.
+Hence, in the worst case, space exponential in the number of nodes inserted is necessary. This is clearly inefficient. In terms of big-O notation, it can be said that the array implementation has a space complexity of $O(2^{n})$. The linked list implementation addresses this issue.
 
 <!-- or at least insert does -->
 
-### Linked list implimentation:
-This implimentation stores the binary search tree as a special type of linked list where each node has pointers to its left and right child. Provided below is the code for the node class:
+### Linked list implementation:
+This implementation stores the binary search tree as a special type of linked list where each node has pointers to its left and right child. Provided below is the code for the node class:
 
 ```python
 class Node:
@@ -183,7 +181,7 @@ class Node:
         self.RightNode = RightNode
 ```
 
-The initialiser for the node class allows instantiating node objects with LeftNode and RightNode. In the absence of this they default to None.
+The initializer for the node class allows instantiating node objects with LeftNode and RightNode. In the absence of this they default to None.
 
 Using this, the BinaryTree class can now be written:
 
@@ -194,7 +192,7 @@ class BinaryTree:
         self.HeadNode = None
 ```
 
-As an iterative implimentation of insert was already covered in the previous array implimentation, a recursive version will be implimented here. Given below is code for the recursive insert:
+As an iterative implementation of insert was already covered in the previous array implementation, a recursive version will be implemented here. Given below is code for the recursive insert:
 
 ```python
 def RecursiveInsert(self, ValueToInsert: int, Subtree=None):
@@ -214,7 +212,7 @@ def RecursiveInsert(self, ValueToInsert: int, Subtree=None):
         elif ValueToInsert <= Subtree.Value and Subtree.LeftNode == None:
             Subtree.LeftNode = Node(ValueToInsert)
 ```
-This insert works by utilising the tree-subtree relationship. If the tree is populated, it first considers the entrire tree by starting with the headnode. Depending on the key of the node to be inserted, the function then calls itself on the left or the right child. This child and its children also form an equal valid tree. Therefore, this process can be repeated, and is repeated until a suitable position for the node to be insert is found. This method can best be described diagramtically:
+This insert works by utilizing the tree-subtree relationship. If the tree is populated, it first considers the entire tree by starting with the headnode. Depending on the key of the node to be inserted, the function then calls itself on the left or the right child. This child and its children also form an equal valid tree. Therefore, this process can be repeated, and is repeated until a suitable position for the node to be insert is found. This method can best be described diagrammatically:
 
 ![targets](/RecursiveInsert.png)
 
@@ -249,9 +247,9 @@ def Search(self, ValueToBeFound) -> Node | None:
                 EndReached = True
         return ReturnNode
 ```
-The search method utilises the ordering in the binary search tree to its advantage. If the ValueToBeFound is greater than the value of the CurrentNode and the CurrentNode has a right node, CurrentNode is set to CurrentNode.RightNode. Conversely, if the ValueToBeFound is lesser than the value of the CurrentNode and the CurrentNode has a left node, CurrentNode is set to CurrentNode.LeftNode. While in this process, if a situation arises such that the ValueToBeFound is not equal to the value of the CurrentNode and the CurrentNode does not possess the necessary left/right child, the value is not in the tree and the search returns None. In the case that the value of the current node is the ValueToBeFound, CurrentNode is returned.
+The search method utilizes the ordering in the binary search tree to its advantage. If the ValueToBeFound is greater than the value of the CurrentNode and the CurrentNode has a right node, CurrentNode is set to CurrentNode.RightNode. Conversely, if the ValueToBeFound is lesser than the value of the CurrentNode and the CurrentNode has a left node, CurrentNode is set to CurrentNode.LeftNode. While in this process, if a situation arises such that the ValueToBeFound is not equal to the value of the CurrentNode and the CurrentNode does not possess the necessary left/right child, the value is not in the tree and the search returns None. In the case that the value of the current node is the ValueToBeFound, CurrentNode is returned.
 
-### Analysing the efficiency of the search method
+### Analyzing the efficiency of the search method
 
 #### Best case: The balanced binary search tree
 
@@ -259,15 +257,15 @@ Consider a 'balanced' binary search tree as depicted below:
 
 ![targets](/BAL.png)
 
-We can define a 'balanced' tree to be one such that the deepest nodes of any two branches of the tree do not differ by a height of more than 1. In other words: the binary search tree is as 'filled' as possible. In such a case, analysis yeilds that a tight upper bound on number of operations necessary to search a balanced tree of $n$ nodes for a specific node, as defined by the number of nodes required to traverse before reaching the desired node ($N_o$) , is given by:
+We can define a 'balanced' tree to be one such that the deepest nodes of any two branches of the tree do not differ by a height of more than 1. In other words: the binary search tree is as 'filled' as possible. In such a case, the number of operations necessary to search a balanced tree of $n$ nodes for a specific node (as defined by the number of nodes required to traverse before reaching the desired node) $N_o$, would be of the form:
 
-$$N_o \le \operatorname{ceil}\left(\log_{2}\left(n+1\right)\right)$$
+$$N_o \le a\log_2(n)-b$$
 
 In other words, the best case time complexity of the search operation of a binary search tree of $n$ nodes can be written as $\Omega(log_2(n))$. Such search time is highly efficient and is one of the primary advantages of the binary search tree.
 
-#### Worst case: The degenerte binary search tree
+#### Worst case: The degenerate binary search tree
 
-In the worst case, that is if nodes are inserted in an ascending or descending order with respect to its keys, the binary search tree devolves to a linked list. For better visualisation, consider the case where nodes with keys of an ascending order are inserted:
+In the worst case, that is if nodes are inserted in an ascending or descending order with respect to its keys, the binary search tree devolves to a linked list. For better visualization, consider the case where nodes with keys of an ascending order are inserted:
 
 ![targets](/DEGEN.png)
 
@@ -275,7 +273,7 @@ In this case, by similar analysis as in the above case, the worst case time comp
 
 ## AVL trees - correcting pitfalls of the binary search tree
 
-To adress this issue of the degenerate binary search tree, it would be desireable to create a tree data structure that can actively balance itself. That is, whenever a node is inserted, the tree can check for imbalances in its nodes and adress them without breaking the binary search invariant. The oldest and most 'strictly balanced' of the self-balancing binary search trees is the AVl (Adelson-Velsky and Landis) tree. A key feature of this data structure is the concept of the 'balance factor' of a node $B_f(n)$ which is defined as:
+To address this issue of the degenerate binary search tree, it would be desireable to create a tree data structure that can actively balance itself. That is, whenever a node is inserted, the tree can check for imbalances in its nodes and address them without breaking the binary search invariant. The oldest and most 'strictly balanced' of the self-balancing binary search trees is the AVl (Adelson-Velsky and Landis) tree. A key feature of this data structure is the concept of the 'balance factor' of a node $B_f(n)$ which is defined as:
 
 $$B_f(n) = \operatorname{Height}(\operatorname{LeftSubtree}(n)) - \operatorname{Height}(\operatorname{RightSubtree}(n))$$
 
@@ -311,7 +309,7 @@ As the ascending (left to right) order of the tree does not change under the tra
 
 ![targets](/LR.png)
 
-These cases encapsulate all combinations of imablences that can be encountered in a binary search tree. To better understand this concept it is important to estalish the idea of a node being 'left-skewed' or 'right-skewed'. Consider again the defenition of the balance factor:
+These cases encapsulate all combinations of imbalances that can be encountered in a binary search tree. To better understand this concept it is important to establish the idea of a node being 'left-skewed' or 'right-skewed'. Consider again the definition of the balance factor:
 
 $$B_f(n) = \operatorname{Height}(\operatorname{LeftSubtree}(n)) - \operatorname{Height}(\operatorname{RightSubtree}(n))$$
 
@@ -319,7 +317,7 @@ If a node's balance factor is negative, the height of it's right subtree is larg
 
 Now consider the case of the left rotate. The conditions under which one must apply the left rotate can therefore be formulated as: "if a node is right-skewed and it's right child is right-skewed, then apply the left rotate to it". In similar fashion conditions for the other rotations can be formulated.
 
-Using these concepts the AVL tree can now be implimented. As the each node now needs to have an associated height and a balance factor, the node class must be changed as below:
+Using these concepts the AVL tree can now be implemented. As the each node now needs to have an associated height and a balance factor, the node class must be changed as below:
 
 ```python
 class Node:
@@ -331,7 +329,7 @@ class Node:
         self.RightNode = RightNode
 ```
 
-With the node class implimented, the AVLTree class can now be implimented:
+With the node class implemented, the AVLTree class can now be implemented:
 
 ```python
 from Node import Node
@@ -341,7 +339,7 @@ class AVLTree:
         self.HeadNode = None
 ```
 
-The 'copy' package is imported to impliment the left and right rotations. Provided below is code for these:
+The 'copy' package is imported to implement the left and right rotations. Provided below is code for these:
 
 ```python
 def LeftRotate(self, Subtree: Node):
@@ -378,9 +376,9 @@ The diagram below describes RightRotate:
 
 ![targets](/RROT.png)
 
-LeftRotate functions analgously to this. 
+LeftRotate functions analogous to this. 
 
-Alongside these, helper functions to handle null cases must be implimented:
+Alongside these, helper functions to handle null cases must be implemented:
 
 ```python
 #To handle null values
@@ -411,7 +409,7 @@ def GetBalance(self, Node: Node):
     return self.GetHeight(Node.LeftNode) - self.GetHeight(Node.RightNode)
 ```
 
-Now the insert function can be implimented. This function also ensures that the tree remains balanced ie. maintains the AVL invariant. That is, the insert function balances out any imbalances introduced by inserting a node into the tree. To do so, it is necessary to check the balances of all the node's parents. In other words, it is necessary to be able to know all the nodes traversed when inserting a node, and to be able to acess them in a 'leaf up' fashion. This can be iteratively done using a stack data structure to store all nodes visited. Alternatively, one can take advantage of the call stack of the recrusive implimentation to keep track of and visit all traversed nodes in the desired order. The latter is implimented in the below function:
+Now the insert function can be implemented. This function also ensures that the tree remains balanced ie. maintains the AVL invariant. That is, the insert function balances out any imbalances introduced by inserting a node into the tree. To do so, it is necessary to know all the nodes traversed when inserting a node, and to be able to access them in a 'leaf up' fashion. This can be iteratively done using a stack data structure to store all nodes visited. Alternatively, one can take advantage of the call stack with a recursive implementation to keep track of and visit all traversed nodes in the desired order. The latter is implemented in the below function:
 
 ```python
 def RecursiveInsert(self, ValueToInsert: int, Subtree=None):
@@ -456,11 +454,11 @@ def RecursiveInsert(self, ValueToInsert: int, Subtree=None):
             self.LeftRotate(Subtree)
 ```
 
-This insert function first fully impliments the previously investigated recrusive insert. Hence, the insertion component is effectively done once the ValueToInsert is set as a suitable node's left or right child. Then, the function updates the node's height and its balance factor. After this, it checks for the four scenarios that were discussed above and carries out rotations as necessary. After carrying out the necessary checks and rotations, the function is complete, and the call-stack is popped. Hence, execution is resumed on the node's parent to again carry out the necessary checks and rotations. In this manner, the height of every node traversed is updated, their balance factor is checked, and the necessary rotations are carried out to ensure that the binary search tree remains balanced. 
+This insert function first fully implements the previously investigated recursive insert. Hence, the insertion component is effectively done once the ValueToInsert is set as a suitable node's left or right child. Then, the function updates the node's height and its balance factor. After this, it checks for the four scenarios that were discussed above and carries out rotations as necessary. After carrying out the necessary checks and rotations, the function is complete, and the call-stack is popped. Hence, execution is resumed on the node's parent to again carry out the necessary checks and rotations. In this manner, the height of every node traversed is updated, their balance factor is checked, and the necessary rotations are carried out to ensure that the binary search tree remains balanced. 
 
 ### AVL tree in action
 
-Now that the insert function is implimented, utility of the AVL tree can be investigated using the below printTree() function obtained from scouring the internet.
+Finally, now that the insert function is implemented, utility of the AVL tree can be investigated using the below printTree() function obtained from the internet:
 
 ```python
 def printTree(node:Node, level=0):
@@ -470,7 +468,7 @@ def printTree(node:Node, level=0):
         printTree(node.RightNode, level + 1)
 ```
 
-Consider the below code and its output.
+Consider the below code and its output:
 
 ```python
 Tree = BinaryTree()
@@ -492,7 +490,9 @@ printTree(Tree.HeadNode)
                                 -> 8
                                     -> 9
 ```
+
 Contrast this against the same insertions carried out on an AVL tree: 
+
 ```python
 Tree = AVLTree()
 for i in  range(10):
@@ -525,7 +525,7 @@ L at 5
         -> 8
             -> 9
 ```
-It is evident that the AVL invariant ensures that tree height, and thereby search time, is minimised. To demonstrate functionality of all the various combinations of rotations, code to insert 10 random values $\in [1,100]$ and its output(s) is given:
+It is evident that the AVL invariant ensures that tree height, and thereby search time, is minimized. To demonstrate functionality of all the various combinations of rotations, code to insert 10 random values $\in [1,100]$ and its output(s) is given:
 
 ```python
 import random
@@ -587,6 +587,82 @@ R at 82
         -> 82
             -> 82
 ```
+
+
+### Analysing the search efficiency of the AVL tree:
+AVL trees ensure a search time of $O(\log(n))$. A proof of this is given below:
+
+The minimum number of nodes required to form an AVL tree of a desired height can be given by the recursive relation:
+
+$$m(h) = 1 + m(h-1) + m(h-2)$$
+
+With the base case:
+
+$$m(1) = 1$$
+
+$$m(2) = 2$$
+
+As $m(h)$ is strictly increasing,
+
+$$m(h-1)>m(h-2)$$
+
+Therefore, the below inequality holds:
+
+$$1+m(h-1)>m(h-2)$$
+
+$$1+m(h-1)+m(h-2)>2m(h-2)$$
+
+$$m(h)>2m(h-2)$$
+
+By repeatedly applying this argument:
+
+$$m(h)>2m(h-2)>4m(h-4)>8m(h-6)...$$
+
+$$m(h)>2^{i}m(h-2i)$$
+
+As the base case $m(1)=1$ is known, solve for $i$ such that $m(h-2i) = m(1)$
+
+$$i = \frac{h-1}{2}$$
+
+Therefore, 
+
+$$m(h)>2^{\frac{h-1}{2}}m(1)$$
+
+$$m(h)>2^{\frac{h-1}{2}}$$
+
+$$\log_2{m(h)}>\frac{h-1}{2}$$
+
+$$2\log_2{m(h)}>h-1$$
+
+$$2\log_2{m(h)}+1>h$$
+
+Hence, an upper bound on the height of an AVL tree is:
+
+$$h<2\log_2{m(h)}+1$$
+
+By the definition of $m(h)$,
+
+$$m(h) \le n(h)$$
+
+Where $n(h)$ is the actual number of nodes at a specific height. Therefore,
+
+$$2\log_2{m(h)}+1 \le 2\log_2{n(h)}+1$$
+
+Hence:
+
+$$h<2\log_2{n(h)}+1$$
+
+Therefore, for a tree of $n$ nodes, an upper bound on its height can be written as:
+
+$$h<2\log_2{n}+1$$ 
+
+This upper bound on height also provides an upper bound on the number of nodes required to traverse before reaching the leaf node. Hence, as the number of operations necessary to search a balanced tree of $n$ nodes for a specific node: $N_o$ is defined by the number of nodes required to traverse before reaching the desired node,
+
+$$N_o<2\log_2{n}+1$$ 
+
+Hence, AVL trees ensure a worst case search time of $O(\log(n))$
+
+QED
 
 <!-- ```console
 R at 86 
