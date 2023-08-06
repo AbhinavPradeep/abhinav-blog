@@ -1,6 +1,28 @@
 baseURL: "/"
 languageCode: "en-us"
 title: "Abhinav Pradeep's Blog"
+paginate: 5
+copyright: "&copy; 2023 Abhinav Pradeep.<br> This work is licensed under <br> a Creative Commons Attribution-ShareAlike 4.0 <br> International License."
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+enableGitInfo: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    anchorLineNos: true
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    noClasses: false
+    style: monokai
 
 module:
   imports:
@@ -23,9 +45,106 @@ menu:
   main:
     - identifier: about
       name: About
-      url: https://www.linkedin.com/in/pradeeploganathan/
+      url: https://www.linkedin.com/in/abhinav-pradeep/
       weight: 30
     - identifier: blog
       name: Blog
       url: /blog/
       weight: 20
+
+params:
+  env: production
+  title: "Abhinav Pradeep's Blog"
+  description: 'My technical notes and thoughts on software engineering, programming, and life.'
+  keywords: [Abhinav Pradeep, Data Structures, Algorithms]
+  author: "Abhinav Pradeep"
+  email: "abhinav.pradeep@sefd.com"
+  comments: true
+  images:
+    - abhinav-profile.jpg
+  DateFormat: 'January 2, 2006'
+  timeFormat: 'h:mm a'
+  dateTimeFormat: 'MMMM Do, YYYY h:mm a'
+  language: en-us
+  languageCode: en-us
+
+  editPost:
+    URL: "https://github.com/AbhinavPradeep/abhinav-blog/tree/main/content"
+    Text: "Edit this post on github" # edit text
+    appendFilePath: true # to append file path to Edit link
+  
+  social:
+    twitter: abhinavpradeep    
+
+  header:
+    title: 'Abhinav Pradeep'
+    imageUrl: 'abhinav-profile.jpg'
+    subtitle: 'cc'
+  
+  ShowShareButtons: true
+  ShowWordCount: true
+  ShowReadingTime: true
+  ShowAuthor: true
+  ShowBreadCrumbs: true
+  ShowTags: true
+  ShowCategories: true
+  ShowDate: true
+  ShowPostNavLinks: true
+  ShowCodeCopyButtons: true
+  hideFooter: true
+  ShowRssButtonInSectionTermList: true
+  Author: "Abhinav Pradeep"
+
+  homeInfoParams:
+      Title: "Hi there \U0001F44B"
+      Content: Welcome to my blog.
+
+      subscribeInfo:
+        Text: If you liked this post, check out my other [Featured Posts](/categories/featured) or learn more [About Me](/about).  
+
+  socialIcons: # optional
+    - name: "twitter"
+      url: "https://twitter.com/abhinavpradeeps"
+    - name: "facebook"
+      url: "https://facebook.com/abhinavpradeep"
+    - name: "linkedin"
+      url: "https://www.linkedin.com/in/abhinav-pradeep"
+    - name: "github"
+      url: "https://github.com/abhinavpradeep"
+    - name: rss
+      url: /index.xml
+
+  profileMode:
+    enabled: true
+    title: "Notes from my journey designing and building software systems" # optional default will be site title
+    subtitle: "Software engineering notes"
+    imageUrl: "abhinav-profile.jpg" # optional
+    imageTitle: "Abhinav Pradeep" # optional
+    imageWidth: 120 # custom size
+    imageHeight: 120 # custom size
+    buttons:
+      - name: feed
+        url: "/index.xml"
+      - name: tags
+        url: "/tags/"
+
+assets:
+  favicon: "/favicon.ico"
+  favicon16x16:  "/favicon-16x16.png"
+  favicon32x32:  "/favicon-32x32.png"
+  apple_touch_icon:  "/apple-touch-icon.png"
+
+permalinks:
+  categories: "/blog/categories/:slug/"
+  tags: "/blog/tags/:slug/"
+  #blog: "/blog/:filename" Think through this change 
+
+taxonomies:
+  tag: "tags"
+  category: "categories"
+  series: "series"
+
+sitemap:
+  changefreq: weekly
+  filename: sitemap.xml
+  priority: 0.5
