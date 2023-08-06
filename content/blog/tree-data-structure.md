@@ -7,6 +7,30 @@ toc: true
 showToc: true
 TocOpen: false
 math: true
+Author: Abhinav Pradeep
+ShowPostNavLinks: true
+ShowRssButtonInSectionTermList: true
+tags: 
+  - "data structures"
+  - "algorithms"
+  - "tree"
+  - "binary tree"
+  - "avl tree"
+  - "recursion"
+categories: 
+  - "data structure"
+summary: "This article covers the tree data structure. In particular: the unbalanced binary search tree and its implementations are investigated. Pitfalls of these implementations are discussed in terms of time and space efficiency. Mitigation of these through the AVL tree is presented and quantified by establishing an upper-bound on search time complexity."
+images:
+  - RecursiveInsert.png
+# cover:
+#     image: "RecursiveInsert.png"
+#     alt: "Tree data structure"
+#     caption: "Tree data structure"
+#     relative: true
+editPost:
+  URL: "https://github.com/AbhinavPradeep/abhinav-blog/blob/main/content"
+  Text: "Edit this post on github" # edit text
+  appendFilePath: true # to append file path to Edit link
 ---
 
 ## What are trees?
