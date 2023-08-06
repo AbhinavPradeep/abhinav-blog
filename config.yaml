@@ -4,6 +4,8 @@ title: "Abhinav Pradeep's Blog"
 paginate: 5
 copyright: "&copy; 2023 Abhinav Pradeep.<br> This work is licensed under <br> a Creative Commons Attribution-ShareAlike 4.0 <br> International License."
 
+googleAnalytics: G-GWE7DYN3SP
+
 enableInlineShortcodes: true
 enableRobotsTXT: true
 buildDrafts: false
