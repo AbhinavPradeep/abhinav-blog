@@ -21,7 +21,7 @@ categories:
   - "data structure"
 summary: "This article covers the tree data structure. In particular: the unbalanced binary search tree and its implementations are investigated. Pitfalls of these implementations are discussed in terms of time and space efficiency. Mitigation of these through the AVL tree is presented and quantified by establishing an upper-bound on search time complexity."
 images:
-  - RecursiveInsert.png
+  - STRUT.png
 # cover:
 #     image: "RecursiveInsert.png"
 #     alt: "Tree data structure"
