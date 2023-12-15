@@ -2,4 +2,4 @@ module github.com/abhinavpradeep/abhinav-blog
 
 go 1.17
 
-require github.com/adityatelange/hugo-PaperMod v0.0.0-20220205131037-06f97458a77e // indirect
+require github.com/adityatelange/hugo-PaperMod v0.0.0-20231210070605-e0fc64c43e8f // indirect

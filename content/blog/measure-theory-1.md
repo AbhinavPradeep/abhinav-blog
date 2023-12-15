@@ -13,7 +13,7 @@ ShowRssButtonInSectionTermList: true
 tags: 
   - "math"
   - "measure theory"
-summary: "Notes from learning measure theory. Covers a review of Riemann integrals and integrability and investigates its pitfalls. These are notes and therefore liable to inaccuracies."
+summary: "Notes from learning measure theory. Covers a review of Riemann integrals and integrability. These are notes and therefore liable to inaccuracies."
 # images:
 #   - STRUT.png
 # cover:
@@ -65,9 +65,9 @@ $$ L(f,P) \le L(f,P^* ) \le U(f,P^* ) \le U(f,P) $$
 
 ### Def 1 / Actual definition
 
-$$U(f) = \sup_{P}U(f,P)$$
+$$U(f) = \inf_{P}U(f,P)$$
 
-$$L(f) = \inf_{P}L(f,P)$$
+$$L(f) = \sup_{P}L(f,P)$$
 
 If a function is Riemann integrable, then
 
@@ -209,7 +209,9 @@ $$\int_{a}^{b}\lim_{n \to \infty}f_n = \lim_{n \to \infty}\int_{a}^{b}f_n$$
 
 Theorem 1 is an example of the deficiencies of Riemann integration. The proof makes it explicit that there is a heavy reliance on uniform continuity. In general limits may not be brought inside the integral if convergence is pointwise. 
 
-Moreover, the Riemann integral only works for functions with finitely many discontinuities. Consider:
+In general for a function on $[a,b]$ to be Riemann integrable, it must be both bounded on $[a,b]$ and have only finitely many discontinuities. Below are some examples of functions that are not Riemann integrable.
+
+Example 1:
 
 ![targets](/CF.png)
 
@@ -240,7 +242,7 @@ $$L(f,P) = 0$$
 Taking infinitely smaller partitions is equivalent to taking an infimum over the set of all $U(f,P)$ and the supremum over set of all $L(f,P)$. Hence as $L(f) \neq U(f)$, the $f(x)$ is not Riemann integrable.
 
 
-In addition, the Riemann integral does not handle unbounded functions well. Consider:
+Example 2:
 
 ![targets](/UB.png)
 
