@@ -1,6 +1,6 @@
 # Abhinav's Blog
 
-This is a personal blog site where I share my thoughts and insights on various topics related to software development, data science, machine learning, and more. I am a student studying Bachelors and Masters of Software Engineering at the University of Queensland. The blog also contains posts on mathematical foundations for software engineering, exploring complexity, optimization, and other areas. I hope you enjoy reading my posts and find them useful or interesting.
+This is a personal blog site where I share my thoughts and insights on various topics related to software development, mathematics, data science, machine learning, and more. I am currently studying [Masters of Software Engineering](https://study.uq.edu.au/study-options/programs/bachelor-engineering-honours-and-master-engineering-2350) at the [University of Queensland](https://www.uq.edu.au/). The blog also contains posts on mathematical foundations for software engineering, exploring complexity, optimization, and other areas. I hope you enjoy reading my posts and find them useful or interesting.
 
 ## Table of Contents
 
