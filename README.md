@@ -18,7 +18,7 @@ This is a personal blog site where I share my thoughts and insights on various t
 
 ## 📖 How to Navigate
 
-- **Homepage:** Start your journey on our [Homepage](https://abhinavpradeep.com/blog/) where the latest posts and featured content are highlighted.
+- **Homepage:** Start your journey on the [Homepage](https://abhinavpradeep.com/blog/) where the latest posts and featured content are highlighted.
 - **Categories/Tags:** Use the categories/tags navigation to filter content based on your interests.
 - **Search:** Looking for something specific? Use the search bar to find content relevant to your query.
 
