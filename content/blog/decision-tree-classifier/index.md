@@ -15,12 +15,17 @@ tags:
   - "supervised learning"
 summary: ""
 images:
-   - DCT1.png
-# cover:
-#     image: "DCT1.png"
-#     alt: "Decision classifier tree"
-#     caption: "Decision classifier tree"
-#     relative: true
+   - /images/decision-tree-classifier.png
+   - /images/DCT1.png
+   - /images/DCT2.png
+   - /images/DCT3.png
+   - /images/DCT4.png
+cover:
+    image: "images/decision-tree-classifier.png"
+    alt: "Decision classifier tree"
+    caption: "Decision classifier tree"
+    relative: true
+hideCoverImage: true
 editPost:
   URL: "https://github.com/AbhinavPradeep/abhinav-blog/blob/main/content"
   Text: "Edit this post on github" # edit text
@@ -31,7 +36,7 @@ editPost:
 
 Decision trees are a form of supervised machine learning. They are built on a binary tree data structure and generate predictions by percolating input features through a system of binary questions. All non-leaf nodes in the tree ask these questions and the leaf nodes contain predictions. The below illustration depicts a decision tree (specifically a classifier tree):
 
-![targets](/DCT1.png)
+![targets](./images/DCT1.png)
 
 Decision trees are of two primary types: classification and regression. Loosely, classification trees output predictions with a discrete domain whereas regression trees output predictions with a continuous domain. For example, an algorithm to predict the fruit given a set of descriptors would be a classification algorithm whereas an algorithm to calculate the probability of post-operative complications would be a regression algorithm. 
 
@@ -75,11 +80,11 @@ Given labelled training data, the set of questions that may be asked can easily 
 
 Consider again the training data set $\textbf{d}$. Given that any boolean question partitions this data into two sets $\textbf{d}_T$ and $\textbf{d}_F$, and the goal is to create pure leaf nodes, it is intuitive that the optimal question to ask would be one that creates the purest split. That is, the question that generates $\textbf{d}_T$ and $\textbf{d}_F$ with the least mixing of labels must be asked. 
 
-![targets](/DCT2.png)
+![targets](./images/DCT2.png)
 
 To be more concrete, this 'mixing' is quantified by Gini impurity index. We take a quick detour to derive this. Consider some dataset consisting of items marked by $J$ labels with relative frequencies $\left( \text{i.e.} \frac{\text{number of occurrences}}{\text{size of dataset}}\right)$ $p_i$ , $i \in [1,J]$. Gini impurity measures the probability that choosing an item at random and label at random from this dataset would yield an incorrect match. The items and labels are both identically distributed according to relative frequency, as visualized by the below illustration:
 
-![targets](/DCT3.png)
+![targets](./images/DCT3.png)
 
 Clearly, the likelihood of correctly matching the $\text{item}_i$ and $\text{label}_i$ would be:
 
@@ -146,7 +151,7 @@ Based on all of the above, the strategy for generating the decision classifier t
 
 All code can be found [here](https://github.com/AbhinavPradeep/DecisionTreeClassifierFromScratch). It is assumed that training data will be provided as an array of the form:
 
-![targets](/DCT4.png)
+![targets](./images/DCT4.png)
 
 ## Question class
 
@@ -327,6 +332,7 @@ def BuildTree(self, DataTable: list[list]) -> Node:
 ```
 
 # Training
+
 Training data was taken from [here](https://archive.ics.uci.edu/dataset/73/mushroom). The dataset contains data on species of edible and poisonous mushrooms. The first 800 rows of data were removed for testing purposes. The below code takes the remaining, imports it, formats it, generates a decision classifier tree from it and pickles the object for testing:
 
 ```python
