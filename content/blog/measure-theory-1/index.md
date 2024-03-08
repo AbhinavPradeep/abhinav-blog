@@ -213,7 +213,7 @@ In general for a function on $[a,b]$ to be Riemann integrable, it must be both b
 
 Example 1:
 
-![targets](/CF.png)
+![targets](./images/CF.png)
 
 It is the characteristic function of the irrational numbers $\in [0,1]$. Now consider any partition $P$. Refinements of $P$ would reduce the size of intervals $[x_i,x_{i+1}]$. By the density of irrationals in the reals, any $[x_i,x_{i+1}]$ contains at least one irrational number. Hence for infinitely small intervals $[x_i,x_{i+1}]$:
 
@@ -244,7 +244,7 @@ Taking infinitely smaller partitions is equivalent to taking an infimum over the
 
 Example 2:
 
-![targets](/UB.png)
+![targets](./images/UB.png)
 
 For any partition $P=\{x_0,x_1,x_2 ... x_n\}$ on $f(x)$, $\displaystyle \sup_{[x_0,x_1]}f = \infty$. Therefore the upper sum $U(f,P)$ is always infinite.
 
