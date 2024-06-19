@@ -49,7 +49,7 @@ Where,
     \infty \text{ if } a = \infty \text{ and/or } b = \infty
 \end{cases}$$ -->
 
-![targets](/MT21.png)
+![targets](./images/MT21.png)
 
 It is easy to prove that $\mu([a,b]) = l(a,b)$.
 
