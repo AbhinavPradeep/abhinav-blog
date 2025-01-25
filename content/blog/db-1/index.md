@@ -1,6 +1,6 @@
 ---
 title: 'Building a DBMS on the Raspberry Pi Pico: Part 1, Programming flash memory'
-date: Mon, 23 Feb 2024 09:45:00 +0000
+date: Wed, 19 Jun 2024 11:54:43 +0000
 draft: false
 comments: true
 toc: true
@@ -11,29 +11,31 @@ Author: Abhinav Pradeep
 ShowPostNavLinks: true
 ShowRssButtonInSectionTermList: true
 tags:  
-  - "data structures"
-  - "algorithms"
-  - "hash table"
-  - "probing"
-  - "list chaining"
-  - "tree chaining"
-summary: "This article covers the hash table data structure. Covers probing and chaining techniques."
-# images:
-#    - images/CI2.png
+  - "DBMS"
+  - "Embedded programming"
+  - "Raspberry Pi Pico"
+summary: "First in a series about building a DBMS on the Raspberry Pi Pico. This article covers the first step in this process: programming flash memory"
+#images:
+#    - images/ChipLayout.png
 # hideCoverImage: true
-# cover:
-#     image: "images/CI2.png"
-#     alt: "Measure Theory - Part 2"
-#     caption: "Measure Theory - Part 2"
-#     relative: true
-#     hidden: true
+cover:
+    image: "images/ChipLayout.png"
+    alt: "Building a DBMS on the Raspberry Pi Pico: Part 1, Programming flash memory"
+    relative: true
+    hidden: true
 editPost:
   URL: "https://github.com/AbhinavPradeep/abhinav-blog/blob/main/content"
   Text: "Edit this post on github" # edit text
   appendFilePath: true # to append file path to Edit link
 ---
 
-The purpose of this project is to understand how database systems work under the hood. I chose to use the Raspberry Pi Pico to work as close to baremetal as possible and to gain a deeper appreciation of embedded systems programming. The specific board being used is the Pico W. Code will be written in C using the C/C++ SDK (very helpful and detailed documentation found [here](https://www.raspberrypi.com/documentation/microcontrollers/c_sdk.html)). As a first step, this article covers reading and writing to the 2MiB of external flash memory on the board. This memory is the only non-volatile memory available to us and is also where the compiled executable lives. Below is a block diagram of the RP2040 chip:
+## Introduction
+
+The purpose of this project is to understand how database systems work under the hood. I chose to use the Raspberry Pi Pico to work as close to baremetal as possible and to gain a deeper appreciation of embedded systems programming. The specific board being used is the Pico W. Code will be written in C using the C/C++ SDK (very helpful and detailed documentation found [here](https://www.raspberrypi.com/documentation/microcontrollers/c_sdk.html)). 
+
+## Memory on the Pico
+
+As a first step, this article covers reading and writing to the 2MiB of external flash memory on the board. This memory is the only non-volatile memory available to us and is also where the compiled executable lives. Below is a block diagram of the RP2040 chip:
 
 ![targets](images/ChipLayout.png)
 
@@ -65,7 +67,11 @@ Going back to flash memory, erasing can only be done in chunks of 4KiB and writi
 
 ![targets](images/hwflash.png)
 
-To build the DBMS we would have to extensively utilise these. Note that to erase and program the flash memory, all interrupts on the board must be disabled prior to and can be re-enabled after. To get started, we now write a simple console application that stores user input, and if the user enters "print", it displays what was previously stored in that location. First we need a way to get user input. To do so, we can write a getLine() function as below:
+To build the DBMS we would have to extensively utilise these. Note that to erase and program the flash memory, all interrupts on the board must be disabled prior to and can be re-enabled after. 
+
+## Trial program
+
+To get started, we now write a simple console application that stores user input, and if the user enters "print", it displays what was previously stored in that location. First we need a way to get user input. To do so, we can write a getLine() function as below:
 
 ```C
 void getLine(char* buffer) {
@@ -126,7 +132,7 @@ __flash_binary_end is a symbol that we use now that is later defined in the same
 
 $$\text{Next block } = \left \lfloor \text{flashEndAddress } + 4096 \right \rfloor _ {4096}$$
 
-Rounding to the nearest block boundary is done using a bitwise and with 0xfffff000: zeroing out any bits between 0-4095 ($16^3-1 = 4095$ ergo the last three digits of the hex). After obtaining the blocks to write to, save_and_disable_interrupts() of the hardware/sync API is used to temporarily disable interrupts before erasing and writing to flash. The interrupts are then re-enabled. Next we have the retreiveFromMemory() function:
+Rounding to the nearest block boundary is done using a bitwise and with 0xfffff000: zeroing out any bits between 0-4095 ($16^3-1 = 4095$ hence the last three digits of the hex). After obtaining the blocks to write to, save_and_disable_interrupts() of the hardware/sync API is used to temporarily disable interrupts before erasing and writing to flash. The interrupts are then re-enabled. Next we have the retreiveFromMemory() function:
 
 ```C
 char* retreiveFromMemory() {
@@ -136,7 +142,6 @@ char* retreiveFromMemory() {
     printf("Sector starts at: 0x%08x\n", nearestBlock);
     uint32_t ints = save_and_disable_interrupts();
     char* memoryLocation = (char*) nearestBlock;
-    //Static to be able to return it
     static char staticBuffer[SECTOR_SIZE];
     printf("Static buffer created at: 0x%08x\n", &staticBuffer);
     memcpy(staticBuffer, memoryLocation, SECTOR_SIZE);
@@ -225,7 +230,11 @@ pico_enable_stdio_uart(picoBlink 0)
 pico_add_extra_outputs(picoBlink)
 ```
 
-Something very important I learned is that it is not enough to just enable input from the USB, you also need to disable UART input from sources other than through the USB. The code was also compiled with "-fstack-usage" to see the stack usage of each of the functions and with "-save-temps -fverbose-asm" to read through the generated assembly files. Now we can run the code. Below is some output from saving the string "abcd" to flash and printing it after: 
+Something very important I learned is that it is not enough to just enable input from the USB, you also need to disable UART input from sources other than through the USB. The code was also compiled with "-fstack-usage" to see the stack usage of each of the functions and with "-save-temps -fverbose-asm" to read through the generated assembly files. 
+
+## Sample output and more discussion on memory mapping
+
+Below is some output from saving the string "abcd" to flash and printing it after: 
 
 <!-- 
 
@@ -465,7 +474,7 @@ spacer_section .stack
 .space StackSize
 ```
 
-in a file called crt0.s, which seems in conflict with the 4KiB space reserved for SCRATCH_Y, unless the stack is allowed to grow past this size. As we have an entire 4KiB array on stack the latter seems reasonable. We also have that the static buffer is created at 0x200030a4 which makes sense as it would be stored within the .bss section. This seems to be confirmed by the line:
+in a file called crt0.s, which seems in conflict with the 4KiB space reserved for SCRATCH_Y, unless the stack is allowed to grow past this size. As we have an entire 4KiB array on stack the latter seems reasonable. On the other hand, my minimal understanding of AVR assembly applied to this context might be failing me here. We also have that the static buffer is created at 0x200030a4 which makes sense as it would be stored within the .bss section. This seems to be confirmed by the line:
 
 ```
 .section	.bss.staticBuffer.0,"aw",%nobits

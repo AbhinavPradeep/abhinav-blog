@@ -61,7 +61,7 @@ $m$ is an approximation of some true function $f$ that maps any feature vector t
 
 <!-- i.e. $L$ can only assume a state from a finite or countably infinite set,  -->
 
-For the purposes of this article, the problem is further simplified by assuming that features cannot have ordering. That is, if weight is a feature, the question "Is weight $\le$ $x$ kg?" cannot be asked. Clearly this would stunt the algorithm's efficacy when dealing with numerical features. However, when it comes to non-numerical features, such questions would generally be meaningless. For example, if colour was a feature, the question "Is colour $\le$ green?" is meaningless. Hence, the purpose of this article is to create a simple classifier algorithm for data with non-numeric features. Specifically, a decision classifier tree of such specifications will be created.
+For the purposes of this article, the problem is further simplified by focusing on categorical features. Specifically, a decision classifier tree of such specifications will be created.
 
 # Strategy:
 

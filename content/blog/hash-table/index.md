@@ -1,6 +1,6 @@
 ---
 title: 'Hash table data structure'
-date: Mon, 21 Feb 2024 09:45:00 +0000
+date: a
 draft: false
 comments: true
 toc: true
